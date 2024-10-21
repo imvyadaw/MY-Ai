@@ -42,9 +42,6 @@ def wishMe():
     speak(f"{greeting} Vishaal the current time is {strTime}. I am  your virtual assistant, how can I help you ?")
 
 
-
-
-
 #
 def takeCommand():
     r = sr.Recognizer()
@@ -67,13 +64,16 @@ def takeCommand():
         return "None"
 
 #laptop britness 
+
 def setBrightness():
     os.system('brightness 50')
     speak("Brightness set to 50%")
+
 #laptop volume
 def setVolume():
     os.system('amixer set Master 50%')
     speak("Volume set to 50%")
+
 # Function to send email
 def sendEmail(to, content):
     server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -82,7 +82,6 @@ def sendEmail(to, content):
     server.login("your-email@gmail.com", "your-password")
     server.sendmail("your-email@gmail.com", to, content)
     server.close()
-
 
 #vs code close 
 
@@ -96,7 +95,6 @@ def Codeon():
 
 
 
-#NEW FUNCTIO ADD  KARO 
 def add():
     speak("Enter first number")
     num1 = int(input("Enter first number: "))
@@ -174,10 +172,10 @@ def mod():
 
 
 
-
 #battry  percentage
 def BatteryPercentage():
     return psutil.sensors_battery().percent
+
 #laptop full charge ho gaya hai
 def isFullCharge():
     return psutil.sensors_battery().power_plugged
@@ -208,11 +206,6 @@ def laptopChargePercentage():
 def isLowBattery():
     return psutil.sensors_battery().percent < 20
 
-#agar laptop ke samne koi nahi hai to laptop apne aap lock ho jaye 
-def lockLaptop():
-    speak("locking laptop")
-    os.system('gnome-screensaver-command -l')
-
 
 def executeCommand(query):
     if 'wikipedia' in query:
@@ -222,6 +215,12 @@ def executeCommand(query):
         speak("According to Wikipedia")
         print(results)
         speak(results)
+
+    elif 'net' in query:
+        speak("Checking internet speed...")
+        speed = speedtest()
+        speak(f"Your internet speed is {speed} Mbps")
+
 
     elif 'open youtube' in query:
         webbrowser.open("youtube.com")
@@ -240,7 +239,6 @@ def executeCommand(query):
 
 
     elif 'open code' in query:
-    # Define the path to Visual Studio Code
         code_path = r"C:\Users\Lenovo\AppData\Local\Programs\Microsoft VS Code\Code.exe"
         os.startfile(code_path)
         speak("sir vs code open ho gaya hai")
@@ -293,25 +291,28 @@ def executeCommand(query):
         content = takeCommand()
         to = "harryyourEmail@gmail.com"
         sendEmail(to, content)
+        speak("Email has been sent to Harry")
+
+
     
     elif "temperature" in query:
-        search = "temperature in delhi"
+        search = "temperature in noida "
         url = f"https://www.google.com/search?q={search}"
         r  = requests.get(url)
         data = BeautifulSoup(r.text,"html.parser")
         temp = data.find("div", class_ = "BNeawe").text
         speak(f"current{search} is {temp}")
         print(f"current{search} is {temp}")
+
 
     elif "weather" in query:
-        search = "temperature in delhi"
+        search = "temperature in noida"
         url = f"https://www.google.com/search?q={search}"
         r  = requests.get(url)
         data = BeautifulSoup(r.text,"html.parser")
         temp = data.find("div", class_ = "BNeawe").text
         speak(f"current{search} is {temp}")
         print(f"current{search} is {temp}")
-
 
 
 
@@ -319,7 +320,6 @@ def executeCommand(query):
         speak("Goodbye Vishal.")
         return True
     
-
  
     elif 'set alarm' in query:
         speak("Sir, please tell me the time to set an alarm")
@@ -334,15 +334,7 @@ def executeCommand(query):
         print(songs)
         os.startfile(os.path.join(music_dir, songs[0]))
         speak("Sir, I am playing music for you.")
-
-    elif "internet speed" in query:
-                    wifi  = speedtest.Speedtest()
-                    upload_net = wifi.upload()/1048576         #Megabyte = 1024*1024 Bytes
-                    download_net = wifi.download()/1048576
-                    print("Wifi Upload Speed is", upload_net)
-                    print("Wifi download speed is ",download_net)
-                    speak(f"Wifi download speed is {download_net}")
-                    speak(f"Wifi Upload speed is {upload_net}")
+    
 
     elif "screenshot" in query:
                      import pyautogui #pip install pyautogui
