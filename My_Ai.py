@@ -1,4 +1,5 @@
 # ------IM_VYADAW------
+from re import Pattern
 from bs4 import BeautifulSoup
 import psutil
 import pyautogui
@@ -17,7 +18,7 @@ import os  # For environment variables
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 150)
+engine.setProperty('rate', 190)
 
 
 
@@ -38,8 +39,8 @@ def wishMe():
 
     strTime=datetime.datetime.now().strftime("%H:%M")
 
-    print(f"{greeting}Vishal! the current time is {strTime}.")
-    speak(f"{greeting}Vishal! the current time is {strTime}. I am  your virtual assistant, how can I help you ?")
+    print(f"{greeting} Vishal! the current time is {strTime}. i am  your virtual assistant, How can I help you ?")
+    speak(f"{greeting} Vishaal the current time is {strTime}. I am  your virtual assistant, how can I help you ?")
 
 
 
@@ -50,14 +51,9 @@ def takeCommand():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Listening...")
-        r.dynamic_energy_threshold=False
-        r.energy_threshold=3000
-        r.dynamic_energy_adjustment_damping=0.010
-        r.dynamic_energy_ratio=1.0
         r.pause_threshold = 0.3
         r.operation_timeout=None
         r.non_speaking_duration=0.1
-
         audio = r.listen(source)
 
     try:
@@ -66,7 +62,7 @@ def takeCommand():
         print(f"User  said: {query}\n")
         return query.lower()
     except Exception:
-        speak("sir say that agaain...")
+        speak("sir say that again...")
         return "None"
 
 #laptop britness 
@@ -179,7 +175,7 @@ def mod():
 
 
 #battry  percentage
-def getBatteryPercentage():
+def BatteryPercentage():
     return psutil.sensors_battery().percent
 #laptop full charge ho gaya hai
 def isFullCharge():
@@ -300,6 +296,12 @@ def executeCommand(query):
         temp = data.find("div", class_ = "BNeawe").text
         speak(f"current{search} is {temp}")
 
+    elif 'battry percentage' in query:
+         speak("plugging in the charger")
+         percentage = Pattern.get_percentage()
+         speak(f"the battery percentage is {percentage}%")
+
+
 
     elif "exit" in query:
         speak("Goodbye Vishal.")
@@ -351,16 +353,6 @@ def executeCommand(query):
                     speak("SMILE")
                     pyautogui.press("enter")
 
-    elif "system off karo do" in query:
-        speak("Are You sure you want to shutdown")
-        shutdown = input("Do you wish to shutdown your computer? (yes/no)")
-    if shutdown == "yes":
-        os.system("shutdown /s /t 1")
-
-    elif shutdown == "no":
-        speak("Okay sir, I will not shutdown your computer.")
-        return True
-    
 
     
     return False
