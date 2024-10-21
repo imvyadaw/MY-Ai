@@ -63,148 +63,7 @@ def takeCommand():
         speak("sir say that again...")
         return "None"
 
-#laptop britness 
 
-def setBrightness():
-    os.system('brightness 50')
-    speak("Brightness set to 50%")
-
-#laptop volume
-def setVolume():
-    os.system('amixer set Master 50%')
-    speak("Volume set to 50%")
-
-# Function to send email
-def sendEmail(to, content):
-    server = smtplib.SMTP('smtp.gmail.com', 587)
-    server.ehlo()
-    server.starttls()
-    server.login("your-email@gmail.com", "your-password")
-    server.sendmail("your-email@gmail.com", to, content)
-    server.close()
-
-#vs code close 
-
-def Codeband():
-    os.system('taskkill /im code.exe /f')
-    speak("Vs code closed")
-    #vs code open
-def Codeon():
-    os.system('code')
-    speak("Vs code opened")
-
-
-
-def add():
-    speak("Enter first number")
-    num1 = int(input("Enter first number: "))
-    speak("Enter second number")
-    num2 = int(input("Enter second number: "))
-    speak("Adding...")
-    ans = num1 + num2
-    speak("The answer is ")
-    speak(ans)
-    return ans
-
-#NEW FUNCTIO SUB  KARO
-def sub():
-    speak("Enter first number")
-    num1 = int(input("Enter first number: "))
-    speak("Enter second number")
-    num2 = int(input("Enter second number: "))
-    speak("Subtracting...")
-    ans = num1 - num2
-    speak("The answer is ")
-    speak(ans)
-    return ans
-#NEW FUNCTIO MUL  KARO
-def mul():
-    speak("Enter first number")
-    num1 = int(input("Enter first number: "))
-    speak("Enter second number")
-    num2 = int(input("Enter second number: "))
-    speak("Multiplying...")
-    ans = num1 * num2
-    speak("The answer is ")
-    speak(ans)
-    return ans
-#NEW FUNCTIO DIV  KARO
-def div():
-    speak("Enter first number")
-    num1 = int(input("Enter first number: "))
-    speak("Enter second number")
-    num2 = int(input("Enter second number: "))
-    speak("Dividing...")
-    ans = num1 / num2
-    speak("The answer is ")
-    speak(ans)
-    return ans
-#NEW FUNCTIO MOD  KARO
-def mod():
-    speak("Enter first number")
-    num1 = int(input("Enter first number: "))
-    speak("Enter second number")
-    num2 = int(input("Enter second number: "))
-    speak("Finding modulus...")
-    ans = num1 % num2
-    speak("The answer is ")
-    speak(ans)
-    return ans
-
-
-
-
-
-# Function to get the weather details
-# def getWeather():
-#     api_key = " your-api-key"
-
-#     base_url = "http://api.openweathermap.org/data/2.5/weather?"
-#     complete_url = base_url + "appid=" + api_key + "&q=London"
-#     response = requests.get(complete_url)
-#     x = response.json()
-#     if x["cod"] != "404":
-#         y = x["main"]
-#         current_temperature = y["temp"]
-#         current_humidiy = y["humidity"]
-#         speak("Temperature in London is " + str(current_temperature) + " degree celcius")
-#         speak("Humidity in London is " + str(current_humidiy) + "%")
-
-
-
-#battry  percentage
-def BatteryPercentage():
-    return psutil.sensors_battery().percent
-
-#laptop full charge ho gaya hai
-def isFullCharge():
-    return psutil.sensors_battery().power_plugged
-
-#laptop charge percentage
-
-def getChargePercentage():
-    return psutil.sensors_battery().percent
-
-#laptop ko charge me lagate hi bole 
-def laptopCharge():
-    speak("Laptop is charging...")
-    return psutil.sensors_battery().power_plugged
-
-#laptop ko charge me nahi lagate hi bole
-def laptopNotCharge():
-    speak("Laptop is not charging...")
-    return psutil.sensors_battery().power_plugged
-
-#laptop charge percentage
-def laptopChargePercentage():
-    speak("Laptop is charging...")
-    return psutil.sensors_battery().percent
-
-
-#laptop battry low
-
-def isLowBattery():
-    return psutil.sensors_battery().percent < 20
 
 
 def executeCommand(query):
@@ -227,12 +86,6 @@ def executeCommand(query):
 
     elif 'open instagram' in query:
         webbrowser.open("instagram.com")
-
-    elif "screen britness" in query:
-        setBrightness()
-
-    elif "volume" in query:
-        setVolume()
     
     elif 'open stackoverflow' in query:
         webbrowser.open("stackoverflow.com")
@@ -286,15 +139,6 @@ def executeCommand(query):
         webbrowser.open(url)
 
 
-    elif 'email to harry' in query:
-        speak("What should I say?")
-        content = takeCommand()
-        to = "harryyourEmail@gmail.com"
-        sendEmail(to, content)
-        speak("Email has been sent to Harry")
-
-
-    
     elif "temperature" in query:
         search = "temperature in noida "
         url = f"https://www.google.com/search?q={search}"
@@ -349,8 +193,6 @@ def executeCommand(query):
                     speak("SMILE")
                     pyautogui.press("enter")
 
-
-    
     return False
 
 if __name__ == "__main__":
