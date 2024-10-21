@@ -21,7 +21,6 @@ engine.setProperty('voice', voices[1].id)
 engine.setProperty('rate', 190)
 
 
-
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
@@ -46,15 +45,17 @@ def wishMe():
 
 
 
-
+#
 def takeCommand():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Listening...")
-        r.pause_threshold = 0.3
+        r.pause_threshold = 1
         r.operation_timeout=None
         r.non_speaking_duration=0.1
         audio = r.listen(source)
+
+
 
     try:
         print("Recognizing...")
@@ -186,6 +187,20 @@ def isFullCharge():
 def getChargePercentage():
     return psutil.sensors_battery().percent
 
+#laptop ko charge me lagate hi bole 
+def laptopCharge():
+    speak("Laptop is charging...")
+    return psutil.sensors_battery().power_plugged
+
+#laptop ko charge me nahi lagate hi bole
+def laptopNotCharge():
+    speak("Laptop is not charging...")
+    return psutil.sensors_battery().power_plugged
+
+#laptop charge percentage
+def laptopChargePercentage():
+    speak("Laptop is charging...")
+    return psutil.sensors_battery().percent
 
 
 #laptop battry low
@@ -197,8 +212,6 @@ def isLowBattery():
 def lockLaptop():
     speak("locking laptop")
     os.system('gnome-screensaver-command -l')
-
-
 
 
 def executeCommand(query):
@@ -288,6 +301,8 @@ def executeCommand(query):
         data = BeautifulSoup(r.text,"html.parser")
         temp = data.find("div", class_ = "BNeawe").text
         speak(f"current{search} is {temp}")
+        print(f"current{search} is {temp}")
+
     elif "weather" in query:
         search = "temperature in delhi"
         url = f"https://www.google.com/search?q={search}"
@@ -295,11 +310,8 @@ def executeCommand(query):
         data = BeautifulSoup(r.text,"html.parser")
         temp = data.find("div", class_ = "BNeawe").text
         speak(f"current{search} is {temp}")
+        print(f"current{search} is {temp}")
 
-    elif 'battry percentage' in query:
-         speak("plugging in the charger")
-         percentage = Pattern.get_percentage()
-         speak(f"the battery percentage is {percentage}%")
 
 
 
@@ -307,16 +319,8 @@ def executeCommand(query):
         speak("Goodbye Vishal.")
         return True
     
-    elif "band karo" in query:
-        speak("Okay sir, I am going offline now.")
-        return True
-    
-    elif "on karo" in query:
-        speak("Okay sir, I am going online now.")
-        print("Okay sir, I am going online now.")
 
-        return True
-    
+ 
     elif 'set alarm' in query:
         speak("Sir, please tell me the time to set an alarm")
         alarm_time = takeCommand()
